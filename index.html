@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ultimate compatability test... ✿ osu! edition</title>
+    <meta
+      name="description"
+      content="type two osu! usernames and something something stars align uhh idk ARF ARF ARF"
+    />
+    <meta property="og:title" content="ultimate compatability test... ✿ osu! edition" />
+    <meta
+      property="og:description"
+      content="type two osu! usernames and something something stars align uhh idk ARF ARF ARF"
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="ultimate compatability test... ✿ osu! edition" />
+    <meta
+      name="twitter:description"
+      content="type two osu! usernames and something something stars align uhh idk ARF ARF ARF"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,800;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=11" />
+  </head>
+  <body>
+    <div class="bg-stars" aria-hidden="true"></div>
+
+    <main class="wrap">
+      <section class="card hero" aria-labelledby="hero-title">
+        <p class="est">totally accurate</p>
+        <h1 id="hero-title">ultimate compatability test...</h1>
+        <p class="hero-sub">
+          type two osu! usernames and something something stars align
+          <br /><br />
+          if u both have 0% that means you need to fist fight to the death
+        </p>
+
+        <form id="analyze-form" novalidate>
+          <div class="compat-form-grid">
+            <div class="analyze-row">
+              <input
+                type="text"
+                id="username-a"
+                name="username_a"
+                autocomplete="username"
+                placeholder="ex. japanese foid"
+                maxlength="64"
+              />
+            </div>
+
+            <button type="submit" class="find-out-btn">find out</button>
+
+            <div class="analyze-row">
+              <input
+                type="text"
+                id="username-b"
+                name="username_b"
+                autocomplete="off"
+                placeholder="ex. chinese foid"
+                maxlength="64"
+              />
+            </div>
+          </div>
+
+          <p id="form-error" class="error" hidden></p>
+        </form>
+      </section>
+
+      <section id="result-section" class="card" hidden aria-live="polite">
+        <p class="verdict-label">compatibility for</p>
+        <p id="res-pair" class="verdict-pair"></p>
+        <p id="verdict-line" class="verdict-line"></p>
+
+        <p class="verdict-percent-sub">0% = enemies · 100% = soulmates</p>
+
+        <p id="verdict-blurb" class="verdict-blurb" hidden></p>
+
+        <div class="profile-link-wrap">
+          <a id="osu-profile-link-a" href="#" target="_blank" rel="noopener noreferrer"></a>
+          <a id="osu-profile-link-b" href="#" target="_blank" rel="noopener noreferrer"></a>
+        </div>
+
+        <button type="button" class="secondary-btn" id="copy-btn">copy verdict</button>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>✿ not affiliated with osu! ✿</p>
+      <p class="footer-credit">
+        made by
+        <a href="https://osu.ppy.sh/users/9632648" target="_blank" rel="noopener noreferrer">aheriez</a>
+        ·
+        <a href="https://x.com/aherieznya" target="_blank" rel="noopener noreferrer">@aherieznya</a>
+      </p>
+    </footer>
+
+    <script src="compat.js"></script>
+  </body>
+</html>
