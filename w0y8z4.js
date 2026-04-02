@@ -41,14 +41,23 @@ document.addEventListener("DOMContentLoaded", function () {
     err.hidden = true;
 
     try {
-      const url =
-        (API_BASE ? API_BASE : "") +
-        "/api/compat?usernameA=" +
-        encodeURIComponent(nameA) +
-        "&usernameB=" +
-        encodeURIComponent(nameB);
+      let url;
+      if (API_BASE) {
+        const b = API_BASE.replace(/\/$/, "");
+        url =
+          b +
+          "/api/compat?usernameA=" +
+          encodeURIComponent(nameA) +
+          "&usernameB=" +
+          encodeURIComponent(nameB);
+      } else {
+        const u = new URL("/api/compat", window.location.origin);
+        u.searchParams.set("usernameA", nameA);
+        u.searchParams.set("usernameB", nameB);
+        url = u.href;
+      }
 
-      const res = await fetch(url);
+      const res = await fetch(url, { cache: "no-store" });
       const text = await res.text();
 
       let data;
@@ -73,14 +82,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const canonB = data.userB || nameB;
       const verdict = data.verdict || {};
 
-      if (typeof verdict.title !== "string") {
+      const titleStr =
+        verdict.title != null && verdict.title !== ""
+          ? String(verdict.title)
+          : "";
+      if (!titleStr) {
         throw new Error("something went wrong");
       }
 
       document.getElementById("res-pair").textContent = canonA + " & " + canonB;
 
       document.getElementById("verdict-line").textContent =
-        String(verdict.percentShown) + "% (" + verdict.title + ")";
+        String(verdict.percentShown) + "% (" + titleStr + ")";
 
       const blurbEl = document.getElementById("verdict-blurb");
       const blurb = verdict.blurb ? String(verdict.blurb).trim() : "";
@@ -110,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
           ": " +
           verdict.percentShown +
           "% (" +
-          verdict.title +
+          titleStr +
           ")";
         navigator.clipboard.writeText(line);
       };

@@ -14,6 +14,12 @@ const { buildCompatibilityVerdict } = require("./p1m3");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// stop caches (cdn/browser) from serving html or stale junk for /api/*
+app.use("/api", function (req, res, next) {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate");
+  next();
+});
+
 app.use(
   cors({
     origin: "*",
@@ -25,6 +31,10 @@ app.use(
 function normName(name) {
   return String(name || "").trim().replace(/^@/, "").toLowerCase();
 }
+
+app.get("/api/health", function (req, res) {
+  res.json({ ok: true });
+});
 
 app.get("/api/compat", async (req, res) => {
   const usernameA = String(req.query.usernameA || "").trim();
