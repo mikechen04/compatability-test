@@ -100,6 +100,20 @@
       </p>
     </footer>
 
-    <script src="w0y8z4.js?v=4"></script>
+    <script>
+      // static hosts (github pages, aheriez.space) have no /api — call cloud run instead
+      // when you open the app ON cloud run (*.run.app) or localhost, keep same origin
+      (function () {
+        var h = window.location.hostname;
+        if (h === "localhost" || h === "127.0.0.1" || h.indexOf(".run.app") !== -1) {
+          window.API_BASE = "";
+        } else if (h === "aheriez.space" || h === "www.aheriez.space") {
+          window.API_BASE = "https://osu-compatability-test-57346811168.us-east5.run.app";
+        } else {
+          window.API_BASE = "";
+        }
+      })();
+    </script>
+    <script src="w0y8z4.js?v=5"></script>
   </body>
 </html>
