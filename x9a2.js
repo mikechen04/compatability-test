@@ -76,8 +76,9 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-const server = app.listen(PORT, () => {
-  console.log("osu compat — http://localhost:" + PORT + " (restart after .env changes)");
+// cloud run needs to listen on all interfaces (not only localhost)
+const server = app.listen(PORT, "0.0.0.0", () => {
+  console.log("listening on port " + PORT);
 });
 
 server.on("error", function (err) {
