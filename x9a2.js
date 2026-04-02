@@ -1,6 +1,6 @@
 /**
  * Express app: static site + GET /api/compat
- * Loads .env, serves index.html at /, proxies osu data via osuApi + compatibility modules.
+ * Loads .env, serves index.html at /.
  */
 require("dotenv").config();
 
@@ -8,8 +8,8 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
-const { fetchUser } = require("./osuApi");
-const { buildCompatibilityVerdict } = require("./compatibility");
+const { fetchUser } = require("./u4k7");
+const { buildCompatibilityVerdict } = require("./p1m3");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
