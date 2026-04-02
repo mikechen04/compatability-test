@@ -1,7 +1,4 @@
-/**
- * Front-end: form submit -> GET /api/compat, render result.
- * Set window.API_BASE if the page is hosted somewhere other than the API origin.
- */
+// front-end: GET /api/compat on same host. set window.API_BASE if api lives elsewhere.
 const API_BASE =
   typeof window !== "undefined" && typeof window.API_BASE === "string"
     ? window.API_BASE.trim()
@@ -58,12 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         data = JSON.parse(text);
       } catch (e) {
-        // static hosts (e.g. python -m http.server) have no /api — you get 404 html
-        if (res.status === 404 || (text && text.trim().indexOf("<!") === 0)) {
-          throw new Error(
-            "run npm start and open http://localhost:3000 — this page needs the api (not python http.server)"
-          );
-        }
         throw new Error("something went wrong");
       }
 
