@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         data = JSON.parse(text);
       } catch (e) {
-        throw new Error("something went wrong");
+        throw new Error("something went wrong (http " + res.status + ")");
       }
 
       if (!res.ok) {
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (maybeError) {
           throw new Error(maybeError);
         }
-        throw new Error("something went wrong");
+        throw new Error("something went wrong (http " + res.status + ")");
       }
 
       const canonA = data.userA || nameA;

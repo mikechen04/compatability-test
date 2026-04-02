@@ -33,6 +33,10 @@ async function getV2Token() {
   });
 
   if (!res.ok) {
+    const errBody = await res.text().catch(function () {
+      return "";
+    });
+    console.error("osu oauth token failed:", res.status, errBody.slice(0, 500));
     return null;
   }
 
