@@ -12,8 +12,6 @@ function normName(name) {
 
 function decorateName(name) {
   const raw = String(name || "");
-  // replace this specific user anywhere it shows up
-  if (raw.indexOf("8581210") !== -1) return "sweet 16";
   // if eriko is mentioned at all, add the little tag
   if (raw.toLowerCase().indexOf("eriko") !== -1) return raw + " 🚫👕";
   return raw;
