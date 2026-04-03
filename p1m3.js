@@ -39,9 +39,8 @@ function formulaPercentFromKey(key) {
 }
 
 function titleCaseLabel(s) {
-  return String(s || "").replace(/\b\w/g, function (c) {
-    return c.toUpperCase();
-  });
+  // keep display stuff lowercase
+  return String(s || "").toLowerCase();
 }
 
 // manual overrides — key format: "userA|userB" (order does not matter; must match osu names)

@@ -12,9 +12,15 @@ function normName(name) {
 
 function decorateName(name) {
   const raw = String(name || "");
+  // replace this specific user anywhere it shows up
+  if (raw.indexOf("8581210") !== -1) return "sweet 16";
   // if eriko is mentioned at all, add the little tag
   if (raw.toLowerCase().indexOf("eriko") !== -1) return raw + " 🚫👕";
   return raw;
+}
+
+function lowerDisplay(s) {
+  return String(s || "").toLowerCase();
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -88,12 +94,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const canonA = data.userA || nameA;
       const canonB = data.userB || nameB;
       const verdict = data.verdict || {};
-      const shownA = decorateName(canonA);
-      const shownB = decorateName(canonB);
+      const shownA = decorateName(lowerDisplay(canonA));
+      const shownB = decorateName(lowerDisplay(canonB));
 
       const titleStr =
         verdict.title != null && verdict.title !== ""
-          ? String(verdict.title)
+          ? lowerDisplay(verdict.title)
           : "";
       if (!titleStr) {
         throw new Error("something went wrong");
