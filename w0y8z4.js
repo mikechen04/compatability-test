@@ -10,6 +10,13 @@ function normName(name) {
     .toLowerCase();
 }
 
+function decorateName(name) {
+  const raw = String(name || "");
+  // if eriko is mentioned at all, add the little tag
+  if (raw.toLowerCase().indexOf("eriko") !== -1) return raw + " 🚫👕";
+  return raw;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("analyze-form");
   const inputA = document.getElementById("username-a");
@@ -81,6 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const canonA = data.userA || nameA;
       const canonB = data.userB || nameB;
       const verdict = data.verdict || {};
+      const shownA = decorateName(canonA);
+      const shownB = decorateName(canonB);
 
       const titleStr =
         verdict.title != null && verdict.title !== ""
@@ -90,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         throw new Error("something went wrong");
       }
 
-      document.getElementById("res-pair").textContent = canonA + " & " + canonB;
+      document.getElementById("res-pair").textContent = shownA + " & " + shownB;
 
       document.getElementById("verdict-line").textContent =
         String(verdict.percentShown) + "% (" + titleStr + ")";
@@ -109,17 +118,17 @@ document.addEventListener("DOMContentLoaded", function () {
       const linkB = document.getElementById("osu-profile-link-b");
       linkA.href = "https://osu.ppy.sh/users/" + encodeURIComponent(canonA);
       linkB.href = "https://osu.ppy.sh/users/" + encodeURIComponent(canonB);
-      linkA.textContent = "open " + canonA + " on osu.ppy.sh";
-      linkB.textContent = "open " + canonB + " on osu.ppy.sh";
+      linkA.textContent = "open " + shownA + " on osu.ppy.sh";
+      linkB.textContent = "open " + shownB + " on osu.ppy.sh";
 
       section.hidden = false;
 
       document.getElementById("copy-btn").onclick = function () {
         const line =
           "osu! compatibility for " +
-          canonA +
+          shownA +
           " & " +
-          canonB +
+          shownB +
           ": " +
           verdict.percentShown +
           "% (" +

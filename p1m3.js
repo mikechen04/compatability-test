@@ -47,9 +47,9 @@ function titleCaseLabel(s) {
 // manual overrides — key format: "userA|userB" (order does not matter; must match osu names)
 const MANUAL_OVERRIDES_RAW = {
   // "player1|player2": { label: "perfect duo", percent: 100 }
-  "japanese foid|chinese foid": { label: "perfect duo", percent: 100 },
-  "ethan jeon|sigge": { label: "perfect duo", percent: 100 },
-  "acer|eriko": { label: "perfect duo", percent: 67 },
+  "japanese foid|chinese foid": { label: "mmfgh.. no stop... it's not right... we're both girls...", percent: 100 },
+  "ethan jeon|sigge": { label: "homosexuals...", percent: 100 },
+  "acer|eriko": { label: "", percent: 67 },
 };
 
 const MANUAL_OVERRIDES = Object.create(null);
@@ -95,13 +95,13 @@ function verdictTitleFromPercent(pct) {
   const p = Math.max(0, Math.min(100, Math.round(Number(pct) || 0)));
 
   let title = "its complicated";
-  if (p <= 15) title = "catastrophic";
+  if (p <= 15) title = "doomed..";
   else if (p <= 30) title = "probably doomed";
   else if (p <= 45) title = "rocky";
-  else if (p <= 55) title = "its complicated";
+  else if (p <= 55) title = "complicated";
   else if (p <= 70) title = "could work";
   else if (p <= 85) title = "pretty solid";
-  else title = "soulmate tier";
+  else title = "match made in heaven <3";
 
   return title;
 }
