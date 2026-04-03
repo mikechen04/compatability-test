@@ -49,7 +49,7 @@ const MANUAL_OVERRIDES_RAW = {
   // "player1|player2": { label: "perfect duo", percent: 100 }
   "japanese foid|chinese foid": { label: "mmfgh.. no stop... it's not right... we're both girls...", percent: 100 },
   "ethan jeon|sigge": { label: "homosexuals...", percent: 100 },
-  "acer|eriko": { label: "", percent: 67 },
+  "acer|eriko": { label: "acer dont get raped", percent: 67 },
 };
 
 const MANUAL_OVERRIDES = Object.create(null);
