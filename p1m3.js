@@ -174,14 +174,6 @@ function buildCompatibilityVerdict(payloadA, payloadB) {
 
   const nameA = String(userA.username || "").trim();
   const nameB = String(userB.username || "").trim();
-  if (nameA === "8581210" || nameB === "8581210") {
-    return {
-      title: "sweet!",
-      percentShown: 16,
-      blurb: "",
-      pairKey: pairKey(nameA, nameB),
-    };
-  }
 
   const key = pairKey(nameA, nameB);
   const randomPct = formulaPercentFromKey(key);
