@@ -21,6 +21,18 @@ function lowerDisplay(s) {
   return String(s || "").toLowerCase();
 }
 
+// calebshucks gag uses RRR on server; lowerDisplay would nuke caps — fix only for that user
+function verdictTitleForDisplay(nameA, nameB, title) {
+  let t = lowerDisplay(title);
+  const caleb =
+    normName(nameA).indexOf("calebshucks") !== -1 ||
+    normName(nameB).indexOf("calebshucks") !== -1;
+  if (caleb) {
+    t = t.replace(/rrr/g, "RRR");
+  }
+  return t;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("analyze-form");
   const inputA = document.getElementById("username-a");
@@ -97,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const titleStr =
         verdict.title != null && verdict.title !== ""
-          ? lowerDisplay(verdict.title)
+          ? verdictTitleForDisplay(canonA, canonB, verdict.title)
           : "";
       if (!titleStr) {
         throw new Error("something went wrong");

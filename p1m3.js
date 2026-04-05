@@ -90,6 +90,31 @@ function pickRawOverride(key) {
   return MANUAL_OVERRIDES[key] || null;
 }
 
+// calebshucks gag: first r/R in title becomes RRR
+function tripleFirstRInTitle(title) {
+  const s = String(title || "");
+  const i = s.search(/r/i);
+  if (i === -1) return s;
+  return s.slice(0, i) + "RRR" + s.slice(i + 1);
+}
+
+function nameHasCalebshucks(name) {
+  return normName(name).indexOf("calebshucks") !== -1;
+}
+
+// lil jeon + syalis or -naomi → always 100%
+function isLilJeonSyalisNaomiPair(a, b) {
+  const na = normName(a);
+  const nb = normName(b);
+  const lilA = na.indexOf("lil jeon") !== -1;
+  const lilB = nb.indexOf("lil jeon") !== -1;
+  const syalisOrNaomiA =
+    na.indexOf("syalis") !== -1 || na.indexOf("-naomi") !== -1;
+  const syalisOrNaomiB =
+    nb.indexOf("syalis") !== -1 || nb.indexOf("-naomi") !== -1;
+  return (lilA && syalisOrNaomiB) || (lilB && syalisOrNaomiA);
+}
+
 function verdictTitleFromPercent(pct) {
   const p = Math.max(0, Math.min(100, Math.round(Number(pct) || 0)));
 
@@ -176,6 +201,20 @@ function buildCompatibilityVerdict(payloadA, payloadB) {
   const nameB = String(userB.username || "").trim();
 
   const key = pairKey(nameA, nameB);
+
+  if (isLilJeonSyalisNaomiPair(nameA, nameB)) {
+    let title = verdictTitleFromPercent(100);
+    if (nameHasCalebshucks(nameA) || nameHasCalebshucks(nameB)) {
+      title = tripleFirstRInTitle(title);
+    }
+    return {
+      title,
+      percentShown: 100,
+      blurb: "",
+      pairKey: key,
+    };
+  }
+
   const randomPct = formulaPercentFromKey(key);
 
   const topA = payloadA.topPlays || [];
@@ -214,9 +253,12 @@ function buildCompatibilityVerdict(payloadA, payloadB) {
   const rawOv = pickRawOverride(key);
   if (rawOv != null) {
     const fixed = normalizeOverrideEntry(rawOv, score);
-    const title = fixed.label
+    let title = fixed.label
       ? titleCaseLabel(fixed.label)
       : verdictTitleFromPercent(fixed.percent);
+    if (nameHasCalebshucks(nameA) || nameHasCalebshucks(nameB)) {
+      title = tripleFirstRInTitle(title);
+    }
     return {
       title,
       percentShown: fixed.percent,
@@ -225,7 +267,10 @@ function buildCompatibilityVerdict(payloadA, payloadB) {
     };
   }
 
-  const title = verdictTitleFromPercent(score);
+  let title = verdictTitleFromPercent(score);
+  if (nameHasCalebshucks(nameA) || nameHasCalebshucks(nameB)) {
+    title = tripleFirstRInTitle(title);
+  }
   return {
     title,
     percentShown: Math.max(0, Math.min(100, Math.round(score))),
