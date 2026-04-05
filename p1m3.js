@@ -125,7 +125,7 @@ function verdictTitleFromPercent(pct) {
   else if (p <= 55) title = "complicated";
   else if (p <= 70) title = "could work";
   else if (p <= 85) title = "pretty solid";
-  else title = "match made in heaven <3";
+  else title = "match made in heaven";
 
   return title;
 }
