@@ -46,7 +46,7 @@ function titleCaseLabel(s) {
 // manual overrides — key format: "userA|userB" (order does not matter; must match osu names)
 const MANUAL_OVERRIDES_RAW = {
   // "player1|player2": { label: "perfect duo", percent: 100 }
-  "soft kitten|celybi": { label: "mmfgh.. no stop... it's not right... we're both girls...", percent: 100 },
+  "soft kitten|chinese foid": { label: "mmfgh.. no stop... it's not right... we're both girls...", percent: 100 },
   "ethan jeon|sigge": { label: "homosexuals...", percent: 100 },
   "acer|eriko": { label: "acer dont get raped", percent: 67 },
 };
