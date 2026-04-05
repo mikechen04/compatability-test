@@ -53,6 +53,7 @@ const MANUAL_OVERRIDES_RAW = {
   "hydrole|-naomi": { percent: 100 },
   "miisted|lil jeon": { percent: 67 },
   "syalis|convex": { percent: 67 },
+  "thore|zhilaohu": { percent: 6767 },
 };
 
 const MANUAL_OVERRIDES = Object.create(null);
