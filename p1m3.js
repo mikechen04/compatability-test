@@ -49,6 +49,9 @@ const MANUAL_OVERRIDES_RAW = {
   "soft kitten|chinese foid": { label: "mmfgh.. no stop... it's not right... we're both girls...", percent: 100 },
   "ethan jeon|sigge": { label: "homosexuals...", percent: 100 },
   "acer|eriko": { label: "acer dont get raped", percent: 67 },
+  "valene|stellasu": { percent: 100 },
+  "hydrole|-naomi": { percent: 100 },
+  "miisted|lil jeon": { percent: 67 },
 };
 
 const MANUAL_OVERRIDES = Object.create(null);
@@ -177,7 +180,8 @@ function computeRankCloseness(rankA, rankB) {
   const b = Number(rankB);
   if (isNaN(a) || isNaN(b)) return 50;
   const diff = Math.abs(a - b);
-  const scale = 5000;
+  // bigger scale = rank gap hurts less (scores stay higher / more forgiving)
+  const scale = 8500;
   const score = 100 / (1 + diff / scale);
   return clampNumber(Math.round(score), 0, 100);
 }
@@ -188,7 +192,7 @@ function computeBadgeCloseness(badgesA, badgesB) {
   const b = Number(badgesB);
   if (isNaN(a) || isNaN(b)) return 50;
   const diff = Math.abs(a - b);
-  const scale = 15;
+  const scale = 22;
   const score = 100 / (1 + diff / scale);
   return clampNumber(Math.round(score), 0, 100);
 }
@@ -223,7 +227,12 @@ function buildCompatibilityVerdict(payloadA, payloadB) {
   const beatA = buildBeatmapIdSet(topA);
   const beatB = buildBeatmapIdSet(topB);
   const beatOverlapCount = countIntersection(beatA, beatB);
-  const beatOverlapScore = clampNumber(Math.round((beatOverlapCount / 10) * 100), 0, 100);
+  // old formula was brutal when overlap was 0 (lots of pairs). floor + fewer maps needed for high score
+  const beatOverlapScore = clampNumber(
+    Math.round(10 + (Math.min(beatOverlapCount, 8) / 8) * 90),
+    0,
+    100
+  );
 
   const modsA = buildModTokenSets(topA);
   const modsB = buildModTokenSets(topB);
@@ -231,7 +240,13 @@ function buildCompatibilityVerdict(payloadA, payloadB) {
   const modIntersection = countIntersection(modsA, modsB);
   const modUnionSize = modsA.size + modsB.size - modIntersection;
   const modOverlapJ = modUnionSize > 0 ? modIntersection / modUnionSize : 0;
-  const modOverlapScore = clampNumber(Math.round(modOverlapJ * 100), 0, 100);
+  // no mods on either side used to pin this at 0; use a neutral middle instead
+  let modOverlapScore;
+  if (modUnionSize <= 0) {
+    modOverlapScore = 48;
+  } else {
+    modOverlapScore = clampNumber(Math.round(5 + modOverlapJ * 95), 0, 100);
+  }
 
   const rankA = userA.global_rank != null ? Number(userA.global_rank) : null;
   const rankB = userB.global_rank != null ? Number(userB.global_rank) : null;
@@ -241,14 +256,20 @@ function buildCompatibilityVerdict(payloadA, payloadB) {
   const badgesB = userB.badgesCount != null ? Number(userB.badgesCount) : null;
   const badgeCloseness = computeBadgeCloseness(badgesA, badgesB);
 
-  const baseScore =
-    beatOverlapScore * 0.4 +
-    modOverlapScore * 0.3 +
-    rankCloseness * 0.2 +
-    badgeCloseness * 0.1;
-  const jitter = (randomPct - 50) * 0.15;
-
-  const score = clampNumber(Math.round(baseScore + jitter), 0, 100);
+  // weighted "organic" part — beat weighed a bit less so one dead signal doesnt crush everything
+  const organic =
+    beatOverlapScore * 0.3 +
+    modOverlapScore * 0.28 +
+    rankCloseness * 0.27 +
+    badgeCloseness * 0.15;
+  // second hash on pair so scores actually use the low and high ends (not stuck 15–70)
+  const spreadPct = formulaPercentFromKey(key + "|spread");
+  const jitter = (randomPct - 50) * 0.34;
+  const score = clampNumber(
+    Math.round(organic * 0.55 + spreadPct * 0.35 + jitter),
+    0,
+    100
+  );
 
   const rawOv = pickRawOverride(key);
   if (rawOv != null) {
