@@ -55,6 +55,7 @@ const MANUAL_OVERRIDES_RAW = {
   "syalis|convex": { percent: 67 },
   "thore|zhilaohu": { percent: 6767 },
   "slenderman|[k]": { percent: 86 },
+  "stupid dog|misaka mikoto": { percent: 0 },
 };
 
 const MANUAL_OVERRIDES = Object.create(null);
